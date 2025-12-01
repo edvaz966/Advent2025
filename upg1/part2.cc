@@ -6,33 +6,31 @@
 using namespace std;
 
 int main() {
-    ifstream file{"test"};
+    ifstream file{"puzzle_input"};
     string s{};
     int current{50};
     int zero_times{};
     int rot{};
     while (getline(file, s, '\n')) {
         int move{stoi(s.substr(1, s.size()))};
+        zero_times += move/100;
+        int current_prev{current};
         if (s[0] == 'L') {
-            if ((current - move) < 0) {
-                current = 100 + (current - move);
-                zero_times++;
-                zero_times += move/100;
-            } else {
-                current -= move;
+            current -= move%100;
+            if (current < 0) {
+                current += 100;
+                if (current_prev != 0) {
+                    zero_times++;
+                }
             }
         }
         else if (s[0] == 'R') {
-            if ((current + move) > 100) {
-                current = (current + move) % 100;
-                zero_times++;
-                zero_times += move/100;
-            } else {
-                current += move;
-            }
+            current += move%100;
+            if (current == 100) {current = 0;}
+            if (current > 100) {current -= 100;zero_times++;}
         }
         if (current == 0) {zero_times++;}
-        cout << "Rotation: " << rot++ << " Current: " <<  current << " Move: " << move << " Move/100: " << move/100 << " zero_times: " << zero_times << endl; 
+        cout << "Rotation: " << rot++ << " Current: " <<  current << " Move: " << s[0] << ":" << move << " Move/100: " << move/100 << " zero_times: " << zero_times << endl; 
     }
     cout << "Number of Zeroes: " << zero_times << endl;
     return 0;
