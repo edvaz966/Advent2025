@@ -6,7 +6,6 @@ using namespace std;
 
 int main() {
     ifstream file{"puzzle_input"};
-    // ifstream file{"test"};
     string s{};
     int current{50};
     int zero_times{};
@@ -17,7 +16,7 @@ int main() {
         else if (s[0] == 'R') {
             current = ((current + stoi(s.substr(1, s.size()))) % 100);
         }
-        // cout << current << endl;
+        cout << current << endl;
         if (current == 0) {zero_times++;}
     }
     cout << "Number of Zeroes: " << zero_times << endl;
