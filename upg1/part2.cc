@@ -30,7 +30,6 @@ int main() {
             if (current > 100) {current -= 100;zero_times++;}
         }
         if (current == 0) {zero_times++;}
-        cout << "Rotation: " << rot++ << " Current: " <<  current << " Move: " << s[0] << ":" << move << " Move/100: " << move/100 << " zero_times: " << zero_times << endl; 
     }
     cout << "Number of Zeroes: " << zero_times << endl;
     return 0;
