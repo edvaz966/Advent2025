@@ -20,16 +20,10 @@ int main(int argc, char* argv[]) {
         string number{};
         string::iterator it{s.begin()};
         while (nofbat > 0) {
-            // cout << "loop: " << 12 - nofbat << " span: " << string{it, prev(s.end(), nofbat)};
             it = max_element(it, prev(s.end(), (nofbat-- - 1)));
-            // cout <<  " res: " << *it << endl;
             number += *it;
             it++;
-            // if (it == prev(s.end(), nofbat)) {
-            //     number += string{it,s.end()};
-            // }
         }
-        // cout << "line: " << s << " number: " << number << "number.size: " << number.size() << endl;
         result += stoll(number);
     }
     cout << "Part2: " << result << endl;

@@ -22,7 +22,6 @@ int main(int argc, char* argv[]) {
         auto second_number = max_element(next(first_number), s.end());
         number += *second_number;
         result += stoi(number);
-        // cout << "line: " << s << " first_number: " << *first_number << " second_number: " << *second_number << endl;
     }
     cout << "Part1: " << result << endl;
     return 0;

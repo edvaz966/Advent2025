@@ -26,7 +26,6 @@ int main() {
                 for (int iii{0}; iii < id.size()/sub.size(); iii++) {
                     comp += sub;
                 }
-                // cout << "Comp: " << comp << endl;
                 if (comp == id) {
                     cout << "Values Added: " << comp << endl; 
                     result += i;
