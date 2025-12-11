@@ -16,6 +16,7 @@ int main(int argc, char* argv[]) {
         filename = argv[1];
     }
     ifstream file{filename};
+    // ifstream file{"test"};
     string s{};
     long long result{};
     vector<pair<long long, long long>> fresh_ranges{};
@@ -31,24 +32,21 @@ int main(int argc, char* argv[]) {
     ranges::sort(fresh_ranges);
     auto remove_it = ranges::remove_if(fresh_ranges, [&](auto const& current){return ranges::any_of(fresh_ranges, [&](auto const& pair){return pair.first < current.first && current.second < pair.second;});});
     fresh_ranges.erase(remove_it.begin(), remove_it.end());
-    cout << format("Lowest Value: {}", fresh_ranges.begin()->first) << endl;
-    for (auto current{fresh_ranges.begin()}; current < fresh_ranges.end(); current++) {
-        auto overlapping = ranges::find_last_if(fresh_ranges, [&](auto p){return p.first < current->second;});
-        // cout << current->first << " to " << current->second << endl;
-        if (current == overlapping.begin()) {
-            // cout << "Found Current" << endl; 
-        } else {
-            // cout << "Found : (" << overlapping.begin()->first << ", " << overlapping.begin()->second << ")" << endl;
-            current->second = overlapping.begin()->second;
-            fresh_ranges.erase(overlapping.begin());
-            ranges::sort(fresh_ranges);
-            current = fresh_ranges.begin();
+    for (size_t i{0}; i < fresh_ranges.size(); i++) {
+        vector<pair<long long, long long>> find_max{};
+        copy_if(next(fresh_ranges.begin(), i + 1), fresh_ranges.end(), back_inserter(find_max), [&](auto p){return p.first <= fresh_ranges[i].second;});
+        if (!find_max.empty()) {
+            fresh_ranges[i].second = *ranges::max_element(find_max | views::values);
         }
+        auto remove_it = remove_if(fresh_ranges.begin()+i+1, fresh_ranges.end(), [&](auto const& current){return fresh_ranges[i].first <= current.first && current.second <= fresh_ranges[i].second;});
+        if (remove_it != fresh_ranges.end()) {
+            i = 0;
+        }
+        fresh_ranges.erase(remove_it, fresh_ranges.end());
     }
     for (auto [start, end] : fresh_ranges) {
         result += end - start + 1;
-        cout << format("({}, {})",start,end) << endl;
     }
-    cout << "Part1: " << result << endl;
+    cout << "Part2: " << result << endl;
     return 0;
 }
